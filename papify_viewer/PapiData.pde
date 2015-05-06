@@ -95,18 +95,20 @@ class PapiData {//one per Actor..
           if (action.name().equals(actionName)) {
             actionExists = true;
             for (int i = 4; i<eventsNb+4; i++){
-              action.sum(i-4, row.getLong(i));//WHAT? solo con dos eventos? ni mas ni menos? no me acuerdo si hice esto a posta, verificar! TODO
+              action.sumEvent(i-4, row.getLong(i));//WHAT? solo con dos eventos? ni mas ni menos? no me acuerdo si hice esto a posta, verificar! TODO
               //action.sum(1, row.getLong(5));
             }
+            action.sumCalls();
             continue;
           }
         }
         if (!actionExists) {
           Action someAction = new Action(actionName, eventsNb);
             for (int i = 4; i<eventsNb+4; i++){
-              someAction.sum(i-4, row.getLong(i));//WHAT? solo con dos eventos? ni mas ni menos? no me acuerdo si hice esto a posta, verificar! TODO
+              someAction.sumEvent(i-4, row.getLong(i));//WHAT? solo con dos eventos? ni mas ni menos? no me acuerdo si hice esto a posta, verificar! TODO
               //action.sum(1, row.getLong(5));
-            }          
+            }
+            someAction.sumCalls();     
           //someAction.sum(0, row.getLong(4));//WHAT? solo con dos eventos? ni mas ni menos? no me acuerdo si hice esto a posta, verificar! TODO
           //someAction.sum(1, row.getLong(5));
           actions.add(someAction);
@@ -160,8 +162,10 @@ class Action {
     hide = b;
   }
 
-  void sum(int eventIndex, long value) {
+  void sumEvent(int eventIndex, long value) {
     eventCount[eventIndex] += value;
+  }
+  void sumCalls(){
     calls++;
   }
 }
